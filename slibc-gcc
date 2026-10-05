@@ -1,0 +1,15 @@
+#!/bin/sh
+# 🕷️ slibc-gcc - Spider OS Native C Compiler Driver
+SLIBC_DIR="/home/vivek/Downloads/spider-os-full-build/slibc/core"
+GCC_INC=$(gcc -print-file-name=include)
+
+exec gcc \
+    -nostdinc \
+    -isystem "$SLIBC_DIR/include" \
+    -isystem "$SLIBC_DIR/obj/include" \
+    -isystem "$GCC_INC" \
+    -Wl,-dynamic-linker,"$SLIBC_DIR/lib/libc.so" \
+    -Wl,-rpath,"$SLIBC_DIR/lib" \
+    "$@" \
+    -L"$SLIBC_DIR/lib" \
+    "$SLIBC_DIR/lib/libc.so"
